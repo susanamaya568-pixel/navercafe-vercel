@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<article class="post-detail">
+  <div class="post-detail-board">{{ post.board_name }}</div>
+  <h1 class="post-detail-title">{{ post.title }}</h1>
+  <div class="post-detail-meta">
+    <span class="author-chip"><span class="g-icon">{{ post.grade.icon }}</span>{{ post.author }} <span class="grade-tag">{{ post.grade.name }}</span></span>
+    <span class="dot">·</span>
+    <span>{{ post.time_ago }}</span>
+    <span class="dot">·</span>
+    <span>조회 {{ "{:,}".format(post.views) }}</span>
+  </div>
+
+  <div class="post-detail-body">
+    {% for line in post.content.split('\n') %}
+    <p>{{ line }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="post-actions">
+    <button class="like-btn">👍 추천 {{ post.likes }}</button>
+    <button class="share-btn">🔗 공유</button>
+    <button class="scrap-btn">📎 스크랩</button>
+  </div>
+
+  <div class="comment-section">
+    <h3 class="side-title">💬 댓글 {{ post.comments }}</h3>
+    <div class="comment-input-row">
+      <input type="text" placeholder="댓글을 입력해주세요" class="comment-input">
+      <button class="comment-submit">등록</button>
+    </div>
+    <ul class="comment-list">
+      <li><span class="g-icon">🌿</span><strong>맛잘알123</strong> 와 진짜 가보고 싶네요!! <span class="c-time">10분 전</span></li>
+      <li><span class="g-icon">🍎</span><strong>먹방요정</strong> 저번주에 다녀왔는데 정말 맛있었어요 ㅎㅎ <span class="c-time">32분 전</span></li>
+      <li><span class="g-icon">🌳</span><strong>동네탐험가</strong> 위치 공유 부탁드려요! <span class="c-time">1시간 전</span></li>
+    </ul>
+  </div>
+</article>
+
+<div class="other-posts">
+  <h3 class="side-title">📰 같은 게시판 다른 글</h3>
+  <ul class="post-list">
+    {% for p in others %}
+    <li class="post-row">
+      <a href="{{ url_for('post', post_id=p.id) }}" class="post-link">
+        <span class="post-title">{{ p.title }}</span>
+        <span class="comment-count">[{{ p.comments }}]</span>
+      </a>
+      <span class="post-meta">{{ p.author }} · {{ p.time_ago }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

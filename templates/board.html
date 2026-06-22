@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="board-page-header">
+  <h2 class="board-section-title">{{ board.name }}</h2>
+  <p class="board-desc">{{ board.desc }}</p>
+</div>
+
+<table class="board-table">
+  <thead>
+    <tr>
+      <th class="col-no">번호</th>
+      <th class="col-title">제목</th>
+      <th class="col-author">작성자</th>
+      <th class="col-date">작성일</th>
+      <th class="col-views">조회</th>
+      <th class="col-likes">추천</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in posts %}
+    <tr>
+      <td class="col-no">{{ p.id }}</td>
+      <td class="col-title">
+        <a href="{{ url_for('post', post_id=p.id) }}">{{ p.title }}</a>
+        <span class="comment-count">[{{ p.comments }}]</span>
+        {% if p.time_ago.endswith("분 전") %}<span class="badge badge-new">NEW</span>{% endif %}
+      </td>
+      <td class="col-author"><span class="g-icon">{{ p.grade.icon }}</span>{{ p.author }}</td>
+      <td class="col-date">{{ p.time_ago }}</td>
+      <td class="col-views">{{ "{:,}".format(p.views) }}</td>
+      <td class="col-likes">{{ p.likes }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="empty-row">등록된 게시글이 없습니다.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

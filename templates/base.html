@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ cafe_name }}{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-logo">🍱 맘카페허브</span>
+    <ul class="topbar-menu">
+      <li>카페가입</li><li>모바일앱</li><li>고객센터</li>
+    </ul>
+  </div>
+</div>
+
+<header class="cafe-header">
+  <div class="cafe-header-inner">
+    <div class="cafe-emblem">🍜</div>
+    <div class="cafe-title-wrap">
+      <h1 class="cafe-title">{{ cafe_name }}</h1>
+      <p class="cafe-sub">{{ cafe_intro }}</p>
+    </div>
+    <div class="cafe-stats">
+      <div class="stat"><span class="stat-num">{{ "{:,}".format(member_count) }}</span><span class="stat-label">회원수</span></div>
+      <div class="stat"><span class="stat-num">{{ "{:,}".format(today_visit) }}</span><span class="stat-label">오늘방문</span></div>
+      <div class="stat"><span class="stat-num">{{ "{:,}".format(total_visit) }}</span><span class="stat-label">전체방문</span></div>
+    </div>
+    <button class="join-btn">＋ 카페가입하기</button>
+  </div>
+</header>
+
+<nav class="quicknav">
+  <div class="quicknav-inner">
+    <a href="{{ url_for('index') }}" class="qn-item">🏠 홈</a>
+    {% for b in boards %}
+    <a href="{{ url_for('board', board_id=b.id) }}" class="qn-item">{{ b.name }}</a>
+    {% endfor %}
+  </div>
+</nav>
+
+<main class="layout">
+  <aside class="sidebar">
+    <div class="side-box">
+      <h3 class="side-title">📋 전체 게시판</h3>
+      <ul class="board-list">
+        {% for b in boards %}
+        <li><a href="{{ url_for('board', board_id=b.id) }}">{{ b.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="side-box rank-box">
+      <h3 class="side-title">🏆 이번 주 등급</h3>
+      <ul class="grade-list">
+        <li><span class="g-icon">👑</span>카페마스터<span class="g-score">500p+</span></li>
+        <li><span class="g-icon">🍎</span>열매회원<span class="g-score">150p+</span></li>
+        <li><span class="g-icon">🌳</span>나무회원<span class="g-score">50p+</span></li>
+        <li><span class="g-icon">🌿</span>새싹회원<span class="g-score">10p+</span></li>
+        <li><span class="g-icon">🌱</span>씨앗회원<span class="g-score">0p+</span></li>
+      </ul>
+    </div>
+    <div class="side-box ad-box">
+      <p>🔥 오늘의 추천 맛집<br><strong>"황금 곱창" 30%할인 中</strong></p>
+    </div>
+  </aside>
+
+  <section class="content">
+    {% block content %}{% endblock %}
+  </section>
+</main>
+
+<footer class="cafe-footer">
+  <p>© 2026 {{ cafe_name }} · 본 페이지는 데모용으로 제작된 커뮤니티 템플릿입니다.</p>
+</footer>
+
+</body>
+</html>
